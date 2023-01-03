@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="./style/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+
+    </header>
+    <div>
+        <main>
+            <div id="container">
+
+            </div>
+        </main>
+        <aside>
+            <div>
+                <button id="searchdata"> 搜索图片 </button>
+            </div>
+        </aside>
+    </div>
+    <footer>
+        <p></p>
+    </footer>
+
+</body>
+<script type="module" src="./store/index.js">
+    const fetchPromise = fetch('https://mdn.github.io/learning-area/javascript/apis/fetching-data/can-store/products.json');
+
+    fetchPromise.then(response => {
+        console.log(response)
+    }
+    )
+</script>
+
+</html>
