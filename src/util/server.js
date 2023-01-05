@@ -1,25 +1,41 @@
 let http = require('http');
 let fs = require('fs');
+let path = require('path')
 
 // 代理配置
 let conifg = {
-    '/xxxx': { // 需要拦截的本地请求路径
-        target: 'http://xxxxxxxx.com', // 真实代理地址
+    '/api': { // 需要拦截的本地请求路径
+        target: 'http://49.233.61.61', // 真实代理地址
         port: 80, // 端口，默认80
-    }
+    },
+    '/get': { // 需要拦截的本地请求路径
+        target: 'http://49.233.61.61', // 真实代理地址
+        port: 80, // 端口，默认80
+    },
+    '/user': { // 需要拦截的本地请求路径
+        target: 'http://49.233.61.61', // 真实代理地址
+        port: 80, // 端口，默认80
+    },
+    '/media': { // 需要拦截的本地请求路径
+        target: 'http://49.233.61.61', // 真实代理地址
+        port: 80, // 端口，默认80
+    },
 };
 
 // 创建http服务
 let app = http.createServer(function (request, response) {
+    // console.log(request)
     let url = request.url === '/' ? 'index.html' : request.url;
+    // let url = request.url
+    console.log(url)
 
     // 存在代理地址，走代理请求
     if (hasProxy(url, request, response)) {
         return;
     }
 
-    // 普通请求和资源加载
-    fs.readFile(__dirname + url, function (err, data) {
+    // 普通请求和资源加载,以本文件目录为源目录
+    fs.readFile(path.join(path.resolve(__dirname,'..'),url) , function (err, data) {
         if (err) {
             console.log('请求失败', err);
         } else {
@@ -35,6 +51,7 @@ function hasProxy(url, request, response) {
             continue;
         }
         const { target, port } = conifg[key];
+        // console.log(target)
         let info = target.split('//');
         let opts = { // 请求参数
             protocol: info[0],
@@ -72,7 +89,7 @@ function proxy(opts, request, response) {
 
     // 本地接口数据传输，通知代理接口请求
     request.on('data', function (chunk) {
-        proxyRequest.write(chunk, 'binary');
+        proxyRequest.write(chunk, 'bin`ary');
     });
 
     // 本地请求结束，通知代理接口请求结束

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "run" : "node "
+    "run": "node src/util/server.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/GYtide/dsrtfront/issues"
   },
-  "homepage": "https://github.com/GYtide/dsrtfront#readme"
+  "homepage": "https://github.com/GYtide/dsrtfront#readme",
+  "dependencies": {
+    "path": "^0.12.7"
+  }
 }
