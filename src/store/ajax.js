@@ -1,7 +1,7 @@
 /**
  *  封装 fetch 的网络请求
 */
-async function ajax(url) {
+async function getspectrum(url) {
     const fetchPromise = fetch(url)
     let data = await fetchPromise.then(response => {
         return response.json()
@@ -10,10 +10,9 @@ async function ajax(url) {
     }).catch( err => {
         return err
     });
-
     return data
 }
 
 export {
-    ajax
+    getspectrum
 }

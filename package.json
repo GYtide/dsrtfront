@@ -19,5 +19,8 @@
   "homepage": "https://github.com/GYtide/dsrtfront#readme",
   "dependencies": {
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.2"
   }
 }
