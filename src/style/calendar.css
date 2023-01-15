@@ -3,6 +3,9 @@ body {
     flex-direction: column;
     align-items: center;
 }
+img {
+    width: 50%;
+}
 
 main {
     height: 100%;
@@ -72,4 +75,15 @@ main {
 .year-item:hover {
     text-decoration: none;
     background-color: #999a9b;
+}
+.yearlist {
+    list-style-type: none;
+    height: 100%;
+}
+
+.overview{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }

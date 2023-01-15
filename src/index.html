@@ -17,11 +17,12 @@
     </div>
 
     <div class="cborder">
-      <div style="float: right; width: 16%; text-align: left;">
+      <div class="yearlist" style="float: right; width: 16%; text-align: left;">
         <ul id="yearlist" class="yearlist">
         </ul>
       </div>
-      <div id="overview">
+      <div id="overview" class="overview">
+        
       </div>
 
     </div>
@@ -49,7 +50,7 @@
   -->
 
   <script type="text/javascript">
-    
+
     var dom = document.getElementById('container');
     var myChart = echarts.init(dom, null, {
       renderer: 'canvas',
@@ -57,59 +58,164 @@
     });
     var app = {};
 
-    var option;
+    var yearlist = getyearlist();
 
-    function getVirtualData(year) {
-      const date = +echarts.time.parse(year + '-01-01');
-      const end = +echarts.time.parse(+year + 1 + '-01-01');
-      const dayTime = 3600 * 24 * 1000;
-      const data = [];
-      for (let time = date; time < end; time += dayTime) {
-        data.push([
-          echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
-          Math.floor(Math.random() * 1000)
-        ]);
+    yearlist.then(
+      res => {
+        console.log(res)
+        document.getElementById('yearlist').textContent = ''
+
+        for (let i = 0; i < res.length; ++i) {
+          var li = document.createElement('li')
+          var a = document.createElement('a')
+          a.setAttribute("class", "year-item")
+          a.class = "year-item"
+          a.id = res[i]
+          a.yindex = i
+          a.textContent = res[i]
+          a.onclick = function () {
+
+            let items = document.getElementsByClassName('year-item')
+            document.getElementById('overview').textContent = ''
+
+            for (let i = 0; i < items.length; ++i) {
+              // console.log(items[0])
+              items[i].style = "background-color: #FFFFFF;"
+            }
+
+            this.style = "background-color: rgb(243, 94, 94);"
+            // clearRect()
+            refreshCalendar(this.id)
+
+          }
+          li.appendChild(a)
+          document.getElementById('yearlist').appendChild(li)
+        }
+        // clearRect()
+        // initRect(res[0])
+        let items = document.getElementsByClassName('year-item')
+
+        for (let i = 0; i < items.length; ++i) {
+          // console.log(items[0])
+          items[i].style = "background-color: #FFFFFF;"
+          if (items[i].id == res[0]) {
+            items[i].style = "background-color: rgb(243, 94, 94);"
+          }
+        }
+        refreshCalendar(res[0])
       }
-      return data;
-    }
-    option = {
-      title: {
-        top: 30,
-        left: 'center',
-        text: '数据检索'
-      },
-      tooltip: {},
-      visualMap: {
-        min: 0,
-        max: 1000,
-        type: 'piecewise',
-        orient: 'horizontal',
-        left: 'center',
-        top: 65
-      },
-      calendar: {
-        top: 120,
-        left: 30,
-        right: 30,
-        cellSize: ['auto', 13],
-        range: '2022',
-        itemStyle: {
-          borderWidth: 0.5
-        },
-        yearLabel: { show: false }
-      },
-      series: {
-        type: 'heatmap',
-        coordinateSystem: 'calendar',
-        data: getVirtualData('2022')
-      }
+    )
+
+    async function getyearlist() {
+      var response = await fetch('/data/year_overview.json')
+      return response.json()
     };
 
-    if (option && typeof option === 'object') {
-      myChart.setOption(option);
+    async function getdatelist(year) {
+      var response = await fetch(`/data/${year}.json`)
+      return response.json()
     }
 
-    window.addEventListener('resize', myChart.resize);
+
+    function refreshCalendar(year) {
+      var option;
+      var datelist = getdatelist(year)
+      datelist.then(
+        res => {
+          console.log(res)
+          const date = +echarts.time.parse(year + '-01-01');
+          const end = +echarts.time.parse(+year + 1 + '-01-01');
+          const dayTime = 3600 * 24 * 1000;
+          const datavalue = [];
+          for (let time = date, i = 0; time < end && i < res.length; ++i, time += dayTime) {
+            datavalue.push([
+              echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
+              res[i].value
+            ]);
+          }
+          option = {
+            title: {
+              top: 30,
+              left: 'center',
+              text: `数据检索    ${year} 年`
+            },
+            tooltip: {},
+            visualMap: {
+              min: 0,
+              max: 1000,
+              type: 'piecewise',
+              orient: 'horizontal',
+              left: 'center',
+              top: 65
+            },
+            calendar: {
+              top: 120,
+              left: 30,
+              right: 30,
+              cellSize: ['auto', 13],
+              range: `${year}`,
+              itemStyle: {
+                borderWidth: 0.5
+              },
+              yearLabel: { show: false }
+            },
+            series: {
+              type: 'heatmap',
+              coordinateSystem: 'calendar',
+              data: datavalue
+            }
+          };
+
+          if (option && typeof option === 'object') {
+            myChart.setOption(option);
+          }
+          myChart.on('click', function (params) {
+            let overview = document.getElementById('overview')
+              overview.textContent = ''
+            if(params.dataIndex %2 ==0){
+              let speimg = document.createElement('img')
+              let onedimg = document.createElement('img')
+              let text1 = document.createElement('a')
+              let text2 = document.createElement('a')
+              text1.textContent = '一维投影图'
+              text2.textContent = '频谱概图'
+              text1.style = '  padding: 18px 16px;'
+              text2.style = '  padding: 18px 16px;'
+
+              onedimg.src = '/data/1d.jpg'
+              speimg.src = '/data/spectrum.jpg'
+
+              overview.appendChild(text1)
+              overview.appendChild(onedimg)
+              overview.appendChild(text2)
+              overview.appendChild(speimg)
+
+            }
+            else {
+              let speimg = document.createElement('img')
+              let onedimg = document.createElement('img')
+              let text1 = document.createElement('a')
+              let text2 = document.createElement('a')
+              text1.textContent = '一维投影图'
+              text2.textContent = '频谱概图'
+              text1.style = '  padding: 18px 16px;'
+              text2.style = '  padding: 18px 16px;'
+
+              onedimg.src = '/data/1d2.jpg'
+              speimg.src = '/data/spectrum2.jpg'
+              overview.appendChild(text1)
+              overview.appendChild(onedimg)
+              overview.appendChild(text2)
+              overview.appendChild(speimg)
+            }
+          });
+
+          window.addEventListener('resize', myChart.resize);
+        }
+      )
+
+    }
+
   </script>
 </body>
 
