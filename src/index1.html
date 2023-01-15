@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="./style/index.css" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+
+    </header>
+    <div>
+        <main>
+            <div id="container" style="height: 100%"></div>
+        </main>
+        <aside>
+            <!-- <div>
+                <button id="searchdata"> 搜索图片 </button>
+            </div> -->
+        </aside> 
+    </div>
+    <footer>
+        <p></p>
+    </footer>
+    <!-- <script src="main.js" type="module"></script> -->
+    <!-- <script src="./lib/konva/konva.js"></script> -->
+    <script type="text/javascript" src="./lib/echarts/echarts.min.js"></script>
+    <script type="text/javascript">
+        var dom = document.getElementById('container');
+        var myChart = echarts.init(dom, null, {
+            renderer: 'canvas',
+            useDirtyRect: false
+        });
+        var app = {};
+
+        var option;
+
+        function getVirtualData(year) {
+            const date = +echarts.time.parse(year + '-01-01');
+            const end = +echarts.time.parse(+year + 1 + '-01-01');
+            const dayTime = 3600 * 24 * 1000;
+            const data = [];
+            for (let time = date; time < end; time += dayTime) {
+                data.push([
+                    echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
+                    Math.floor(Math.random() * 10000)
+                ]);
+            }
+            return data;
+        }
+        option = {
+            title: {
+                top: 30,
+                left: 'center',
+                text: 'Daily Step Count'
+            },
+            tooltip: {},
+            visualMap: {
+                min: 0,
+                max: 10000,
+                type: 'piecewise',
+                orient: 'horizontal',
+                left: 'center',
+                top: 65
+            },
+            calendar: {
+                top: 120,
+                left: 30,
+                right: 30,
+                cellSize: ['auto', 13],
+                range: '2016',
+                itemStyle: {
+                    borderWidth: 0.5
+                },
+                yearLabel: { show: false }
+            },
+            series: {
+                type: 'heatmap',
+                coordinateSystem: 'calendar',
+                data: getVirtualData('2016')
+            }
+        };
+
+        if (option && typeof option === 'object') {
+            myChart.setOption(option);
+        }
+
+        window.addEventListener('resize', myChart.resize);
+    </script>
+</body>
+
+</html>

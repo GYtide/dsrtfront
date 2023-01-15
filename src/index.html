@@ -1,33 +1,116 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=calendar-heatmap
+-->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" style="height: 100%">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="./style/index.css" rel="stylesheet">
+  <meta charset="utf-8">
 </head>
+<link href="./style/calendar.css" rel="stylesheet">
 
-<body>
-    <header>
+<body style="height: 100%; margin: 0">
 
-    </header>
-    <div>
-        <main>
-            <div id="container"></div>
-        </main>
-        <aside>
-            <div>
-                <button id="searchdata"> 搜索图片 </button>
-            </div>
-        </aside>
+  <main>
+    <div class="border">
+      <div id="container" style="height: 100%"></div>
     </div>
-    <footer>
-        <p></p>
-    </footer>
 
+    <div class="cborder">
+      <div style="float: right; width: 16%; text-align: left;">
+        <ul id="yearlist" class="yearlist">
+        </ul>
+      </div>
+      <div id="overview">
+      </div>
+
+    </div>
+  </main>
+
+
+
+  <script type="text/javascript" src="./lib/echarts/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+
+    var option;
+
+    function getVirtualData(year) {
+      const date = +echarts.time.parse(year + '-01-01');
+      const end = +echarts.time.parse(+year + 1 + '-01-01');
+      const dayTime = 3600 * 24 * 1000;
+      const data = [];
+      for (let time = date; time < end; time += dayTime) {
+        data.push([
+          echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
+          Math.floor(Math.random() * 1000)
+        ]);
+      }
+      return data;
+    }
+    option = {
+      title: {
+        top: 30,
+        left: 'center',
+        text: '数据检索'
+      },
+      tooltip: {},
+      visualMap: {
+        min: 0,
+        max: 1000,
+        type: 'piecewise',
+        orient: 'horizontal',
+        left: 'center',
+        top: 65
+      },
+      calendar: {
+        top: 120,
+        left: 30,
+        right: 30,
+        cellSize: ['auto', 13],
+        range: '2022',
+        itemStyle: {
+          borderWidth: 0.5
+        },
+        yearLabel: { show: false }
+      },
+      series: {
+        type: 'heatmap',
+        coordinateSystem: 'calendar',
+        data: getVirtualData('2022')
+      }
+    };
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
 </body>
-    <script  src="main.js" type="module"></script>
-    <script src="./lib/konva/konva.js"></script>
+
 </html>
