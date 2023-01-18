@@ -10,5 +10,5 @@ esac
 if [ -x "$basedir/node" ]; then
   exec "$basedir/node"  "$basedir/node_modules/live-server/live-server.js" "$@"
 else 
-  exec node  "$basedir/node_modules/live-server/live-server.js" "--root=$basedir/src" "--proxy=/api:http://49.233.61.61:80/api" "--proxy=/get:http://49.233.61.61:80/get" "--proxy=/user:http://49.233.61.61:80/user" "--proxy=/media:http://49.233.61.61:80/media"
+  exec node  "$basedir/node_modules/live-server/live-server.js" "--root=$basedir" "--proxy=/api:http://49.233.61.61:80/api" "--proxy=/get:http://49.233.61.61:80/get" "--proxy=/user:http://49.233.61.61:80/user" "--proxy=/media:http://49.233.61.61:80/media"
 fi

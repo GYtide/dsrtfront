@@ -1,5 +1,5 @@
 <!--
-	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=calendar-heatmap
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=bar-large
 -->
 <!DOCTYPE html>
 <html lang="zh-CN" style="height: 100%">
@@ -7,30 +7,12 @@
 <head>
   <meta charset="utf-8">
 </head>
-<link href="./style/calendar.css" rel="stylesheet">
 
 <body style="height: 100%; margin: 0">
-
-  <main>
-    <div class="border">
-      <div id="container" style="height: 100%"></div>
-    </div>
-
-    <div class="cborder">
-      <div class="yearlist" style="float: right; width: 16%; text-align: left;">
-        <ul id="yearlist" class="yearlist">
-        </ul>
-      </div>
-      <div id="overview" class="overview">
-
-      </div>
-
-    </div>
-  </main>
+  <div id="container" style="height: 100%"></div>
 
 
-
-  <script type="text/javascript" src="./lib/echarts/echarts.min.js"></script>
+  <script type="text/javascript" src="../src/lib/echarts/echarts.min.js"></script>
   <!-- Uncomment this line if you want to dataTool extension
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
   -->
@@ -50,7 +32,6 @@
   -->
 
   <script type="text/javascript">
-
     var dom = document.getElementById('container');
     var myChart = echarts.init(dom, null, {
       renderer: 'canvas',
@@ -58,164 +39,217 @@
     });
     var app = {};
 
-    var yearlist = getyearlist();
+    var option;
 
-    yearlist.then(
-      res => {
-        console.log(res)
-        document.getElementById('yearlist').textContent = ''
+    const dataCount = 5e5;
+    const data = generateData();
 
-        for (let i = 0; i < res.length; ++i) {
-          var li = document.createElement('li')
-          var a = document.createElement('a')
-          a.setAttribute("class", "year-item")
-          a.class = "year-item"
-          a.id = res[i]
-          a.yindex = i
-          a.textContent = res[i]
-          a.onclick = function () {
+    data.then(data => {
 
-            let items = document.getElementsByClassName('year-item')
-            document.getElementById('overview').textContent = ''
-
-            for (let i = 0; i < items.length; ++i) {
-              // console.log(items[0])
-              items[i].style = "background-color: #FFFFFF;"
+      option = {
+        title: {
+          text: echarts.format.addCommas(dataCount) + ' Data',
+          left: 10
+        },
+        toolbox: {
+          feature: {
+            dataZoom: {
+              yAxisIndex: false
+            },
+            saveAsImage: {
+              pixelRatio: 2
             }
-
-            this.style = "background-color: rgb(243, 94, 94);"
-            // clearRect()
-            refreshCalendar(this.id)
-
           }
-          li.appendChild(a)
-          document.getElementById('yearlist').appendChild(li)
-        }
-        // clearRect()
-        // initRect(res[0])
-        let items = document.getElementsByClassName('year-item')
-
-        for (let i = 0; i < items.length; ++i) {
-          // console.log(items[0])
-          items[i].style = "background-color: #FFFFFF;"
-          if (items[i].id == res[0]) {
-            items[i].style = "background-color: rgb(243, 94, 94);"
+        },
+        tooltip: {
+          // trigger: 'axis',
+          // axisPointer: {
+          //   type: 'shadow'
+          // }
+        },
+        grid: {
+          bottom: 90
+        },
+        dataZoom: [
+          {
+            type: 'inside'
+          },
+          {
+            type: 'slider',
+            showDataShadow: false,
+            handleIcon:
+              'path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+            handleSize: '80%'
+          },
+          {
+            type: 'inside',
+            orient: 'vertical'
+          },
+          {
+            type: 'slider',
+            orient: 'vertical',
+            showDataShadow: false,
+            handleIcon:
+              'path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
+            handleSize: '80%'
           }
+        ],
+        xAxis: {
+          data: data.timeData,
+          type: 'category',
+          silent: false,
+          splitLine: {
+            show: false
+          },
+          splitArea: {
+            show: false
+          }
+        },
+        yAxis: {
+          data: data.freData,
+          type: 'category',
+          splitArea: {
+            show: false
+          }
+        },
+        visualMap: {
+        min: 0,
+        max: 255,
+        calculable: true,
+        realtime: false,
+        inRange: {
+          color: [
+            '#313695',
+            '#4575b4',
+            '#74add1',
+            '#abd9e9',
+            '#e0f3f8',
+            '#ffffbf',
+            '#fee090',
+            '#fdae61',
+            '#f46d43',
+            '#d73027',
+            '#a50026'
+          ]
         }
-        refreshCalendar(res[0])
+      },
+        series: [
+          {
+            type: 'heatmap',
+            data: data.valueData,
+            // Set `large` for large data amount
+            // large: true
+            emphasis: {
+            itemStyle: {
+              borderColor: '#333',
+              borderWidth: 1
+            }
+          },
+          progressive: 1000,
+          animation: false
+          }
+        ]
+      };
+
+      if (option && typeof option === 'object') {
+        myChart.setOption(option);
       }
-    )
 
-    async function getyearlist() {
-      var response = await fetch('/data/year_overview.json')
-      return response.json()
-    }; 
+      window.addEventListener('resize', myChart.resize);
+    })
 
-    async function getdatelist(year) {
-      var response = await fetch(`/data/${year}.json`)
-      return response.json()
+    async function getData() {
+      let resp = await Promise.all([
+        fetch('../data/mmintime.bin', {
+          method: 'get',
+          responseType: 'arraybuffer'
+        }), fetch('../data/mminfrequency.bin', {
+          method: 'get',
+          responseType: 'arraybuffer'
+        }), fetch('../data/mmindata.bin', {
+          method: 'get',
+          responseType: 'arraybuffer'
+        })]).then(
+          res => {
+            // return { time : res[0].arrayBuffer()}
+            return { time: res[0].arrayBuffer(), fre: res[1].arrayBuffer(), fredata: res[2].arrayBuffer() }
+          }
+        ).then(
+          async res => {
+            let dataarray = await res.fredata.then(value => {
+              return value
+            })
+            let timearray = await res.time.then(value => {
+              return value
+            })
+            let frearray = await res.fre.then(value => {
+              return value
+            })
+
+            // console.log(timearray)
+
+            dataarray = new Uint8Array(dataarray)
+
+            timearray = new Float32Array(timearray)
+
+            frearray = new Float32Array(frearray)
+
+            // let time = +new Date(2011, 0, 1);
+
+            return { time: timearray, fre: frearray, data: dataarray }
+          }
+        )
+      return resp
     }
 
 
-    function refreshCalendar(year) {
-      var option;
-      var datelist = getdatelist(year)
-      // console.log(datelist)
-      datelist.then(
-        res => {
-          // console.log(res)
-          const date = +echarts.time.parse(year + '-01-01');
-          const end = +echarts.time.parse(+year + 1 + '-01-01');
-          const dayTime = 3600 * 24 * 1000;
-          const datavalue = [];
-          for (let time = date, i = 0; time < end && i < res.length; ++i, time += dayTime) {
-            datavalue.push([
-              echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
-              res[i].value
-            ]);
-          }
-          option = {
-            title: {
-              top: 30,
-              left: 'center',
-              text: `数据检索    ${year} 年`
-            },
-            tooltip: {},
-            visualMap: {
-              min: 0,
-              max: 1000,
-              type: 'piecewise',
-              orient: 'horizontal',
-              left: 'center',
-              top: 65
-            },
-            calendar: {
-              top: 120,
-              left: 30,
-              right: 30,
-              cellSize: ['auto', 13],
-              range: `${year}`,
-              itemStyle: {
-                borderWidth: 0.5
-              },
-              yearLabel: { show: false }
-            },
-            series: {
-              type: 'heatmap',
-              coordinateSystem: 'calendar',
-              data: datavalue
-            }
-          };
+    async function generateData() {
 
-          if (option && typeof option === 'object') {
-            myChart.setOption(option);
-          }
-          myChart.on('click', function (params) {
-            let overview = document.getElementById('overview')
-            overview.textContent = ''
-            if (params.dataIndex % 2 == 0) {
-              let speimg = document.createElement('img')
-              let onedimg = document.createElement('img')
-              let text1 = document.createElement('a')
-              let text2 = document.createElement('a')
-              text1.textContent = '一维投影图'
-              text2.textContent = '频谱概图'
-              text1.style = '  padding: 18px 16px;'
-              text2.style = '  padding: 18px 16px;'
+      let dataresponse = await getData().then(value => {
+        return value
+      })
 
-              onedimg.src = '/data/1d.jpg'
-              speimg.src = '/data/spectrum.jpg'
+      console.log(dataresponse)
 
-              overview.appendChild(text1)
-              overview.appendChild(onedimg)
-              overview.appendChild(text2)
-              overview.appendChild(speimg)
+      let timearray = dataresponse.time
+      let frearray = dataresponse.fre
+      let dataarray = dataresponse.data
 
-            }
-            else {
-              let speimg = document.createElement('img')
-              let onedimg = document.createElement('img')
-              let text1 = document.createElement('a')
-              let text2 = document.createElement('a')
-              text1.textContent = '一维投影图'
-              text2.textContent = '频谱概图'
-              text1.style = '  padding: 18px 16px;'
-              text2.style = '  padding: 18px 16px;'
-
-              onedimg.src = '/data/1d2.jpg'
-              speimg.src = '/data/spectrum2.jpg'
-              overview.appendChild(text1)
-              overview.appendChild(onedimg)
-              overview.appendChild(text2)
-              overview.appendChild(speimg)
-            }
-          });
-
-          window.addEventListener('resize', myChart.resize);
+      let valueData = []
+      for (let j = 0; j < frearray.length; ++j) {
+        for (let i = 0; i < timearray.length; ++i) {
+          valueData.push([i, j,dataarray[j*timearray.length+i]])
         }
-      )
+      }
+      // let baseValue = Math.random() * 1000;
+      let time = +new Date(2011, 0, 1);
+      // let smallBaseValue;
+      // function next(idx) {
+      //   smallBaseValue =
+      //     idx % 30 === 0
+      //       ? Math.random() * 700
+      //       : smallBaseValue + Math.random() * 500 - 250;
+      //   baseValue += Math.random() * 20 - 10;
+      //   return Math.max(0, Math.round(baseValue + smallBaseValue) + 3000);
+      // }
+      const timeData = [];
+      const freData = [];
+      // const valueData = [];
+      for (let i = 0; i < timearray.length; ++i) {
+        timeData.push(
+          echarts.format.formatTime('yyyy-MM-dd\nhh:mm:ss.ms', time + timearray[i] * 1000, false)
+        );
+        // valueData.push(next(i).toFixed(2));
+        // time += 1000;
+      }
 
+      return {
+        timeData: timeData,
+        freData: frearray,
+        valueData: valueData
+      };
     }
+
 
   </script>
 </body>
