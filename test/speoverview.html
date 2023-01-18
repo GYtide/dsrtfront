@@ -1,0 +1,223 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=calendar-heatmap
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+
+<head>
+  <meta charset="utf-8">
+</head>
+<link href="./style/calendar.css" rel="stylesheet">
+
+<body style="height: 100%; margin: 0">
+
+  <main>
+    <div class="border">
+      <div id="container" style="height: 100%"></div>
+    </div>
+
+    <div class="cborder">
+      <div class="yearlist" style="float: right; width: 16%; text-align: left;">
+        <ul id="yearlist" class="yearlist">
+        </ul>
+      </div>
+      <div id="overview" class="overview">
+
+      </div>
+
+    </div>
+  </main>
+
+
+
+  <script type="text/javascript" src="./lib/echarts/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+
+    var yearlist = getyearlist();
+
+    yearlist.then(
+      res => {
+        console.log(res)
+        document.getElementById('yearlist').textContent = ''
+
+        for (let i = 0; i < res.length; ++i) {
+          var li = document.createElement('li')
+          var a = document.createElement('a')
+          a.setAttribute("class", "year-item")
+          a.class = "year-item"
+          a.id = res[i]
+          a.yindex = i
+          a.textContent = res[i]
+          a.onclick = function () {
+
+            let items = document.getElementsByClassName('year-item')
+            document.getElementById('overview').textContent = ''
+
+            for (let i = 0; i < items.length; ++i) {
+              // console.log(items[0])
+              items[i].style = "background-color: #FFFFFF;"
+            }
+
+            this.style = "background-color: rgb(243, 94, 94);"
+            // clearRect()
+            refreshCalendar(this.id)
+
+          }
+          li.appendChild(a)
+          document.getElementById('yearlist').appendChild(li)
+        }
+        // clearRect()
+        // initRect(res[0])
+        let items = document.getElementsByClassName('year-item')
+
+        for (let i = 0; i < items.length; ++i) {
+          // console.log(items[0])
+          items[i].style = "background-color: #FFFFFF;"
+          if (items[i].id == res[0]) {
+            items[i].style = "background-color: rgb(243, 94, 94);"
+          }
+        }
+        refreshCalendar(res[0])
+      }
+    )
+
+    async function getyearlist() {
+      var response = await fetch('/data/year_overview.json')
+      return response.json()
+    }; 
+
+    async function getdatelist(year) {
+      var response = await fetch(`/data/${year}.json`)
+      return response.json()
+    }
+
+
+    function refreshCalendar(year) {
+      var option;
+      var datelist = getdatelist(year)
+      // console.log(datelist)
+      datelist.then(
+        res => {
+          // console.log(res)
+          const date = +echarts.time.parse(year + '-01-01');
+          const end = +echarts.time.parse(+year + 1 + '-01-01');
+          const dayTime = 3600 * 24 * 1000;
+          const datavalue = [];
+          for (let time = date, i = 0; time < end && i < res.length; ++i, time += dayTime) {
+            datavalue.push([
+              echarts.time.format(time, '{yyyy}-{MM}-{dd}', false),
+              res[i].value
+            ]);
+          }
+          option = {
+            title: {
+              top: 30,
+              left: 'center',
+              text: `数据检索    ${year} 年`
+            },
+            tooltip: {},
+            visualMap: {
+              min: 0,
+              max: 1000,
+              type: 'piecewise',
+              orient: 'horizontal',
+              left: 'center',
+              top: 65
+            },
+            calendar: {
+              top: 120,
+              left: 30,
+              right: 30,
+              cellSize: ['auto', 13],
+              range: `${year}`,
+              itemStyle: {
+                borderWidth: 0.5
+              },
+              yearLabel: { show: false }
+            },
+            series: {
+              type: 'heatmap',
+              coordinateSystem: 'calendar',
+              data: datavalue
+            }
+          };
+
+          if (option && typeof option === 'object') {
+            myChart.setOption(option);
+          }
+          myChart.on('click', function (params) {
+            let overview = document.getElementById('overview')
+            overview.textContent = ''
+            if (params.dataIndex % 2 == 0) {
+              let speimg = document.createElement('img')
+              let onedimg = document.createElement('img')
+              let text1 = document.createElement('a')
+              let text2 = document.createElement('a')
+              text1.textContent = '一维投影图'
+              text2.textContent = '频谱概图'
+              text1.style = '  padding: 18px 16px;'
+              text2.style = '  padding: 18px 16px;'
+
+              onedimg.src = '/data/1d.jpg'
+              speimg.src = '/data/spectrum.jpg'
+
+              overview.appendChild(text1)
+              overview.appendChild(onedimg)
+              overview.appendChild(text2)
+              overview.appendChild(speimg)
+
+            }
+            else {
+              let speimg = document.createElement('img')
+              let onedimg = document.createElement('img')
+              let text1 = document.createElement('a')
+              let text2 = document.createElement('a')
+              text1.textContent = '一维投影图'
+              text2.textContent = '频谱概图'
+              text1.style = '  padding: 18px 16px;'
+              text2.style = '  padding: 18px 16px;'
+
+              onedimg.src = '/data/1d2.jpg'
+              speimg.src = '/data/spectrum2.jpg'
+              overview.appendChild(text1)
+              overview.appendChild(onedimg)
+              overview.appendChild(text2)
+              overview.appendChild(speimg)
+            }
+          });
+
+          window.addEventListener('resize', myChart.resize);
+        }
+      )
+
+    }
+
+  </script>
+</body>
+
+</html>
