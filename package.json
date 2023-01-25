@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "run": "node src/util/server.js"
@@ -18,9 +19,11 @@
   },
   "homepage": "https://github.com/GYtide/dsrtfront#readme",
   "dependencies": {
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "ws": "^8.12.0"
   },
   "devDependencies": {
-    "live-server": "^1.2.2"
+    "live-server": "^1.2.2",
+    "ws": "^8.12.0"
   }
 }
