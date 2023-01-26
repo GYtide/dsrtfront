@@ -1,40 +1,4 @@
-<!--
-	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=calendar-heatmap
--->
-<!DOCTYPE html>
-<html lang="zh-CN" style="height: 100%">
-
-<head>
-  <meta charset="utf-8">
-</head>
-<link href="./style/calendar.css" rel="stylesheet">
-
-<body style="height: 100%; margin: 0">
-
-  <main>
-    <div class="border">
-      <div id="container" style="height: 100%"></div>
-    </div>
-
-    <div class="cborder">
-      <div class="yearlist" style="float: right; width: 16%; text-align: left;">
-        <ul id="yearlist" class="yearlist">
-        </ul>
-      </div>
-      <div id="overview" style="height: 500px;" class="overview">
-        <div id="speoverview" >
-        </div>
-      </div>
-    </div>
-  </main>
-
-
-
-  <script type="text/javascript" src="./lib/echarts/echarts.min.js"></script>
-
-  <script type="text/javascript">
-
-    var calendardom = document.getElementById('container');
+var calendardom = document.getElementById('container');
     var calendarCharts = echarts.init(calendardom, null, {
       renderer: 'svg',
       useDirtyRect: false
@@ -128,12 +92,15 @@
               return value
             })
 
+            // console.log(timearray)
 
             dataarray = new Uint8Array(dataarray)
 
             timearray = new Float32Array(timearray)
 
             frearray = new Float32Array(frearray)
+
+            // let time = +new Date(2011, 0, 1);
 
             return { time: timearray, fre: frearray, data: dataarray }
           }
@@ -171,11 +138,11 @@
               type: 'piecewise',
               orient: 'horizontal',
               left: 'center',
-              // top: 65
-              bottom: 10
+            //   top: 65
+             bottom: 50
             },
             calendar: {
-              top: 120,
+              top: 90,
               left: 30,
               right: 30,
               cellSize: ['auto', 13],
@@ -196,7 +163,7 @@
             calendarCharts.setOption(option);
           }
           calendarCharts.on('click', function (params) {
-            let overview = document.getElementById('overview')
+            let overview = document.getElementById('overview-container')
             overview.textContent = ''
             var speovdom = document.createElement('div')
 
@@ -205,7 +172,7 @@
             // speovdom.id = ''
 
             var speChart = echarts.init(speovdom, null, {
-              renderer: 'svg',
+              renderer: 'canvas',
               useDirtyRect: false
             });
             let dataresponse = getspeoverlist().then(value => {
@@ -376,7 +343,3 @@
       )
 
     }
-  </script>
-</body>
-
-</html>
