@@ -1,5 +1,5 @@
 export function respeoverview(padom, timearray, frearray, dataarray) {
-
+    padom.textContent = ''
     var speChart = echarts.init(padom, null, {
         renderer: 'canvas',
         useDirtyRect: false
@@ -11,26 +11,27 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
             valueData.push([i, j, dataarray[j * timearray.length + i]])
         }
     }
-    // let baseValue = Math.random() * 1000;
-    let time = +new Date(2011, 0, 1);
+    let time = +new Date(2022, 0, 1);
 
     const timeData = [];
     const freData = [];
-    // const valueData = [];
     for (let i = 0; i < timearray.length; ++i) {
         timeData.push(
             echarts.format.formatTime('yyyy-MM-dd\nhh:mm:ss.ms', time + timearray[i] * 1000, false)
         );
-        // valueData.push(next(i).toFixed(2));
-        // time += 1000;
     }
 
-    const dataCount = 5e5;
+    // 频点数组保留两位小数
+    for (let i = 0 ; i < frearray.length; ++i) {
+        freData.push(Math.floor(frearray[i]*1000)/1000)
+        // console.log(Math.floor(frearray[i]*100)/100)
+
+    }
     const upColor = '#00da3c';
     const downColor = '#ec0000';
     speChartoption = {
         title: {
-            text: echarts.format.addCommas(dataCount) + ' Data',
+            text: '频谱概图',
             left: 10
         },
         toolbox: {
@@ -45,19 +46,14 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
         },
         tooltip: {
             axisPointer: {
-                type: 'cross'
+                // type: 'cross'
             },
-            // borderWidth: 1,
+            borderWidth: 1,
             borderColor: '#ccc',
             // padding: 10,
             textStyle: {
                 color: '#000'
             },
-
-            // trigger: 'axis',
-            // axisPointer: {
-            //   type: 'shadow'
-            // }
         },
         grid: {
             bottom: 90
@@ -98,7 +94,7 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
             }
         },
         yAxis: {
-            data: frearray,
+            data: freData,
             type: 'category',
             splitArea: {
                 show: false
@@ -107,7 +103,7 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
         visualMap: {
             min: 0,
             max: 255,
-            calculable: true,
+            // calculable: true,
             realtime: false,
             inRange: {
                 color: [
@@ -129,19 +125,15 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
             {
                 type: 'heatmap',
                 data: valueData,
-                // Set `large` for large data amount
-                // large: true
+                name: '频谱数据预览',
                 emphasis: {
                     itemStyle: {
                         borderColor: '#333',
-                        // borderWidth: 1
                     }
                 },
                 itemStyle: {
                     color: upColor,
                     color0: downColor,
-                    borderColor: undefined,
-                    borderColor0: undefined
                 },
                 progressive: 1000,
                 animation: false
@@ -150,7 +142,7 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
     };
 
     if (speChartoption && typeof speChartoption === 'object') {
-        speChart.setOption(speChartoption,true);
+        speChart.setOption(speChartoption, true);
     }
 
 }
