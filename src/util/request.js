@@ -57,4 +57,34 @@ export async function getSpeoverData(date) {
         }
       )
     return resp
-  }
+}
+
+export async function getProjectData(date) {
+  let resp = await Promise.all([
+    fetch(APP_URL.oneProjectview(date).time, {
+      method: 'get',
+      responseType: 'arraybuffer'
+    }),fetch(APP_URL.oneProjectview(date).data, {
+      method: 'get',
+      responseType: 'arraybuffer'
+    })]).then(
+      res => {
+        return { time: res[0].arrayBuffer(), data: res[1].arrayBuffer() }
+      }
+    ).then(
+      async res => {
+        let dataarray = await res.data.then(value => {
+          return value
+        })
+        let timearray = await res.time.then(value => {
+          return value
+        })
+        dataarray = new Float32Array(dataarray)
+
+        timearray = new Uint32Array(timearray)
+
+        return { time: timearray,data: dataarray }
+      }
+    )
+  return resp
+}

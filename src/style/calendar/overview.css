@@ -1,6 +1,6 @@
 
 #output-container {
-    height: 800px;
+    height: 1000px;
 }
 
 .year-view {
@@ -38,9 +38,11 @@
 
 #overview-container {
     height: 100%;
-    padding: 6px 12px;
+    /* padding: 6px 12px; */
     /* background-color: aquamarine; */
     width: 84%;
+    padding-bottom: 20px;
+    padding-top: 20px;
 }
 
 
