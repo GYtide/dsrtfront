@@ -9,20 +9,21 @@ export async function getyearlist() {
 }
 
 
-export async function getdatelist(year) {
-    var response = await fetch(`/data/${year}.json`)
+export async function getCalendarData(year) {
+  console.log()
+    var response = await fetch(APP_URL.calendardata(year))
     return response.json()
 }
 
-export async function getspeoverlist() {
+export async function getSpeoverData(date) {
     let resp = await Promise.all([
-      fetch('/data/mmintime.bin', {
+      fetch(APP_URL.speoverview(date).time, {
         method: 'get',
         responseType: 'arraybuffer'
-      }), fetch('/data/mminfrequency.bin', {
+      }), fetch(APP_URL.speoverview(date).fre, {
         method: 'get',
         responseType: 'arraybuffer'
-      }), fetch('/data/mmindata.bin', {
+      }), fetch(APP_URL.speoverview(date).data, {
         method: 'get',
         responseType: 'arraybuffer'
       })]).then(

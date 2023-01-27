@@ -1,6 +1,6 @@
 import { getyearlist } from "../../util/request.js";
 import { initCalendar, refreshCalendar } from "./calendar.js";
-import { getdatelist } from '../../util/request.js'
+import { getCalendarData } from '../../util/request.js'
 
 
 var calendardom = document.getElementById('container');
@@ -29,7 +29,7 @@ yearlist.then(res => {
             }
 
             this.style = "background-color: #0A84FF"
-            var caldate = getdatelist(this.id)
+            var caldate = getCalendarData(this.id)
             caldate.then(
                 res => {
                     // console.log('-====-',res)

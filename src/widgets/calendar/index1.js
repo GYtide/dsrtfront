@@ -59,12 +59,12 @@ async function getyearlist() {
   return response.json()
 };
 
-async function getdatelist(year) {
+async function getCalendarData(year) {
   var response = await fetch(`/data/${year}.json`)
   return response.json()
 }
 
-async function getspeoverlist() {
+async function getSpeoverData() {
   let resp = await Promise.all([
     fetch('/data/mmintime.bin', {
       method: 'get',
@@ -111,7 +111,7 @@ async function getspeoverlist() {
 
 function refreshCalendar(year) {
   var option;
-  var datelist = getdatelist(year)
+  var datelist = getCalendarData(year)
   datelist.then(
     res => {
       console.log(res)
@@ -175,7 +175,7 @@ function refreshCalendar(year) {
           renderer: 'canvas',
           useDirtyRect: false
         });
-        let dataresponse = getspeoverlist().then(value => {
+        let dataresponse = getSpeoverData().then(value => {
           return value
         })
         var speChartoption;

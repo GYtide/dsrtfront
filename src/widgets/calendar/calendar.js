@@ -1,5 +1,5 @@
-import { getdatelist } from '../../util/request.js'
-import { getspeoverlist } from '../../util/request.js';
+import { getCalendarData } from '../../util/request.js'
+import { getSpeoverData } from '../../util/request.js';
 import { respeoverview } from '../calendar/speovew.js'
 
 export function initCalendar(padom, year) {
@@ -9,7 +9,7 @@ export function initCalendar(padom, year) {
     useDirtyRect: false
   });
   var option;
-  var datelist = getdatelist(year)
+  var datelist = getCalendarData(year)
   datelist.then(
     res => {
       const date = +echarts.time.parse(year + '-01-01');
@@ -65,7 +65,9 @@ export function initCalendar(padom, year) {
 
         speovdom.style = "width: 1050px; height: 400px;"
 
-        let dataresponse = getspeoverlist().then(value => {
+        let serdate = params.data[0].split('-')
+
+        let dataresponse = getSpeoverData(serdate[0]).then(value => {
           return value
         })
         dataresponse.then(
