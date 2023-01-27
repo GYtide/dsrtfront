@@ -1,6 +1,6 @@
-import { getCalendarData } from '../../util/request.js'
-import { getSpeoverData } from '../../util/request.js';
-import { respeoverview } from '../calendar/speovew.js'
+import { getCalendarData ,getSpeoverData ,getProjectData} from '../../util/request.js'
+import { respeoverview} from '../calendar/speovew.js'
+import {re1Dview} from '../calendar/oneproject.js'
 
 export function initCalendar(padom, year) {
   // padom.textContent =''
@@ -61,22 +61,33 @@ export function initCalendar(padom, year) {
       calendarCharts.on('click', function (params) {
         let overviewdom = document.getElementById('overview-container')
         overviewdom.textContent = ''
+        // 加载当天的频谱数据预览图
         var speovdom = document.createElement('div')
-
-        speovdom.style = "width: 1050px; height: 400px;"
-
+        speovdom.style = "width: 1050px; height: 400px; margin-bottom: 40px;"
         let serdate = params.data[0].split('-')
-
-        let dataresponse = getSpeoverData(serdate[0]).then(value => {
+        let speOvewResponse = getSpeoverData(serdate[0]).then(value => {
           return value
         })
-        dataresponse.then(
+        speOvewResponse.then(
           dataresponse => {
             let timearray = dataresponse.time
             let frearray = dataresponse.fre
             let dataarray = dataresponse.data
             respeoverview(speovdom, timearray, frearray, dataarray)
             overviewdom.appendChild(speovdom)
+          });
+
+        var oneprodom = document.createElement('div')
+        oneprodom.style = "width: 1050px; height: 400px; margin-bottom: 40px;"
+        let oneProjResponse = getProjectData(serdate[0]).then(value => {
+          return value
+        })
+        oneProjResponse.then(
+          dataresponse => {
+            let timearray = dataresponse.time
+            let dataarray = dataresponse.data
+            re1Dview(oneprodom, timearray,dataarray)
+            overviewdom.appendChild(oneprodom)
           });
         window.addEventListener('resize', calendarCharts.resize);
       }

@@ -1,4 +1,4 @@
-export function respeoverview(padom, timearray, frearray, dataarray) {
+export function re1Dview(padom, timearray,dataarray) {
     padom.textContent = ''
     var speChart = echarts.init(padom, null, {
         renderer: 'canvas',
@@ -6,7 +6,8 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
     });
     var speChartoption;
     let valueData = []
-    for (let j = 0; j < frearray.length; ++j) {
+    let pixelnum = dataarray.length/timearray.length
+    for (let j = 0; j < pixelnum; ++j) {
         for (let i = 0; i < timearray.length; ++i) {
             valueData.push([i, j, dataarray[j * timearray.length + i]])
         }
@@ -17,21 +18,14 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
     const freData = [];
     for (let i = 0; i < timearray.length; ++i) {
         timeData.push(
-            echarts.format.formatTime('yyyy-MM-dd\nhh:mm:ss.ms', time + timearray[i] * 1000, false)
+            echarts.format.formatTime('yyyy-MM-dd\nhh:mm:ss', time + timearray[i] * 1000, false)
         );
-    }
-
-    // 频点数组保留两位小数
-    for (let i = 0 ; i < frearray.length; ++i) {
-        freData.push(Math.floor(frearray[i]*1000)/1000)
-        // console.log(Math.floor(frearray[i]*100)/100)
-
     }
     const upColor = '#00da3c';
     const downColor = '#ec0000';
     speChartoption = {
         title: {
-            text: '频谱概图',
+            text: '一维投影概图',
             left: 10
         },
         toolbox: {
@@ -94,14 +88,14 @@ export function respeoverview(padom, timearray, frearray, dataarray) {
             }
         },
         yAxis: {
-            data: freData,
+            // data: freData,
             type: 'category',
             splitArea: {
                 show: false
             }
         },
         visualMap: {
-            min: Math.min(...dataarray),
+            min: Math.min(...dataarray) ,
             max: Math.max(...dataarray),
             calculable: true,
             realtime: false,
