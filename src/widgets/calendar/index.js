@@ -32,7 +32,6 @@ yearlist.then(res => {
             var caldate = getCalendarData(this.id)
             caldate.then(
                 res => {
-                    // console.log('-====-',res)
                     const date = +echarts.time.parse(this.id + '-01-01');
                     const end = +echarts.time.parse(+this.id + 1 + '-01-01');
                     const dayTime = 3600 * 24 * 1000;
@@ -61,4 +60,6 @@ yearlist.then(res => {
     initCalendar(calendardom, res[0])
 }
 )
+
+
 

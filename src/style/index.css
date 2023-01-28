@@ -39,3 +39,11 @@ button {
     box-shadow: inset 1px 1px 2px white, inset -1px -1px 2px #ccc;
     width: 201.5px;
 }
+
+button[role="tab"]:focus, 
+button[role="tab"]:hover {
+    color: #1b1b1b;
+}
+button[aria-selected="true"] {
+    border-bottom-color: #0085F2;
+}

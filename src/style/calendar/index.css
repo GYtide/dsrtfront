@@ -21,3 +21,27 @@ div {
 a {
     text-decoration: none;
 }
+
+button[role="tab"]:focus,
+button[role="tab"]:hover {
+    color: #1b1b1b;
+}
+
+button[role="tab"] {
+    background-color: transparent;
+    color: #4E4E4E;
+    padding: .5em 30px;
+    border: 0 none;
+    border-bottom-color: currentcolor;
+    border-bottom-style: none;
+    border-bottom-width: 0px;
+    border-bottom: 3px solid transparent;
+    border-bottom-color: transparent;
+    font-size:  18px;
+    cursor: pointer;
+}
+
+button[aria-selected="true"] {
+    color: #0085F2;
+    border-bottom-color: #0085F2;
+}

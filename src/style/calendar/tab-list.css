@@ -1,0 +1,10 @@
+.tab-list {
+    display: flex;
+    gap: .5rem;
+    padding-top: 1rem;
+    background: #f9f9fb;
+}
+
+.hidden {
+    display: none;
+}

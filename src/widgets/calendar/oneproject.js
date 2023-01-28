@@ -119,7 +119,7 @@ export function re1Dview(padom, timearray,dataarray) {
             {
                 type: 'heatmap',
                 data: valueData,
-                name: '频谱数据预览',
+                name: '一维投影概图',
                 emphasis: {
                     itemStyle: {
                         borderColor: '#333',

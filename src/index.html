@@ -10,6 +10,7 @@
     <link href="./style/calendar/nav.css" rel="stylesheet">
     <link href="./style/calendar/container.css" rel="stylesheet">
     <link href="./style/calendar/overview.css" rel="stylesheet">
+    <link href="./style/calendar/tab-list.css" rel="stylesheet">
 </head>
 
 <body>
@@ -43,13 +44,34 @@
             </div>
             <h3 class="searchCardTitle">查询结果</h3>
             <div id="output-container">
+                <div class="tab-list" id="tablist" role="tablist">
+                    <button role="tab" aria-selected="true"  aria-selected="true" aria-controls="overview-panel">
+                        预览数据
+                    </button>
+                    <button role="tab" aria-selected="false"  aria-selected="false" aria-controls="spefilelist-panel">
+                        成像数据
+                    </button>
+                    <button role="tab" aria-selected="false"  aria-selected="false" aria-controls="imgfilelist-panel">
+                        频谱数据
+                    </button>
+                </div>
                 <div class="year-view">
                     <ul id="yearlist" class="yearlist">
                     </ul>
                 </div>
-                <div id="overview-container">
-        
-                </div>
+                <section id="overview-panel" role="tabpanel" aria-hidden="false">
+                    <div id="overview-container">
+                    </div>
+                </section>
+
+                <section id="spefilelist-panel" role="tabpanel" aria-hidden="true">
+              
+                </section>
+
+                <section id="imgfilelist-panel" role="tabpanel"  aria-hidden="true">
+              
+                </section>
+
             </div>
         </div>
 
@@ -57,6 +79,7 @@
 
     <script type="text/javascript" src="./lib/echarts/echarts.min.js"></script>
     <script type="module" src="./widgets/calendar/index.js"></script>
+    <script type="module" src="./widgets/calendar/tabs.js"></script>
 
 </body>
 
