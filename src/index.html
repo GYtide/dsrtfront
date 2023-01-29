@@ -11,6 +11,7 @@
     <link href="./style/calendar/container.css" rel="stylesheet">
     <link href="./style/calendar/overview.css" rel="stylesheet">
     <link href="./style/calendar/tab-list.css" rel="stylesheet">
+    <link href="./style/calendar/filelist.css" rel="stylesheet">
 </head>
 
 <body>
@@ -45,13 +46,13 @@
             <h3 class="searchCardTitle">查询结果</h3>
             <div id="output-container">
                 <div class="tab-list" id="tablist" role="tablist">
-                    <button role="tab" aria-selected="true"  aria-selected="true" aria-controls="overview-panel">
+                    <button role="tab" aria-selected="true" aria-selected="true" aria-controls="overview-panel">
                         预览数据
                     </button>
-                    <button role="tab" aria-selected="false"  aria-selected="false" aria-controls="spefilelist-panel">
+                    <button role="tab" aria-selected="false" aria-selected="false" aria-controls="spefilelist-panel">
                         成像数据
                     </button>
-                    <button role="tab" aria-selected="false"  aria-selected="false" aria-controls="imgfilelist-panel">
+                    <button role="tab" aria-selected="false" aria-selected="false" aria-controls="imgfilelist-panel">
                         频谱数据
                     </button>
                 </div>
@@ -64,12 +65,13 @@
                     </div>
                 </section>
 
+
                 <section id="spefilelist-panel" role="tabpanel" aria-hidden="true">
-              
+
                 </section>
 
-                <section id="imgfilelist-panel" role="tabpanel"  aria-hidden="true">
-              
+                <section id="imgfilelist-panel" role="tabpanel" aria-hidden="true">
+
                 </section>
 
             </div>

@@ -1,0 +1,30 @@
+a.l-btn span span.l-btn-text {
+    display: inline-block;
+    vertical-align: baseline;
+    width: auto;
+    height: 16px;
+    line-height: 16px;
+    font-size: 12px;
+    margin: 0;
+}
+
+a.l-btn span span.l-btn-icon-left {
+    padding: 0 0 0 20px;
+    background-position: left center;
+}
+
+.icon-save {
+    background: url('/src/icons/filesave.png') no-repeat center center;
+    background-position-x: center;
+    background-position-y: center;
+}
+
+a.l-btn-plain, a.l-btn-plain span.l-btn-left {
+    background: transparent;
+    border: 0;
+    filter: none;
+}
+
+.datagrid-header-row, .datagrid-row {
+    height: 25px;
+}
