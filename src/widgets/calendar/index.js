@@ -22,7 +22,7 @@ yearlist.then(res => {
         a.onclick = function () {
 
             let items = document.getElementsByClassName('year-item')
-            document.getElementById('overview-container').textContent = ''
+            // document.getElementById('overview-container').textContent = ''
             for (let i = 0; i < items.length; ++i) {
                 // console.log(items[0])
                 items[i].style = "background-color: #FFFFFF"

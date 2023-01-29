@@ -24,6 +24,7 @@
 
 .nav-brand {
     margin-right: 1rem;
+    width: auto;
 }
 
 .row {
@@ -32,6 +33,7 @@
 }
 
 .nav-link {
+    width: auto;
     display: block;
     padding: .5rem 1rem;
     color: #ccc;
