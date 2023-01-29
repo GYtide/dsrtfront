@@ -18,7 +18,7 @@
 <body>
     <nav class="navbar">
         <div class="navbar-container">
-            <div class="row" >
+            <div class="row">
                 <a class="nav-brand" width="260px">
                     <img src="../test/new-header-logo.png" style="margin-left: 20px;" width="260px">
                 </a>
@@ -66,75 +66,74 @@
                     </div>
                 </section>
                 <section class="tabpanel" id="spefilelist-panel" role="tabpanel" aria-hidden="true">
-                    <div>
+                    <div class="table-container">
                         <table class="table table-hover table-striped">
                             <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">First</th>
-                                <th scope="col">Last</th>
-                                <th scope="col">Handle</th>
-                              </tr>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">First</th>
+                                    <th scope="col">Last</th>
+                                    <th scope="col">Handle</th>
+                                </tr>
                             </thead>
                             <tbody>
-                              <tr>
-                                <th scope="row">1</th>
-                                <td>Mark</td>
-                                <td>Otto</td>
-                                <td>@mdo</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>@fat</td>
-                              </tr>
-                              <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>@twitter</td>
-                              </tr>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>Mark</td>
+                                    <td>Otto</td>
+                                    <td>@mdo</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">2</th>
+                                    <td>Jacob</td>
+                                    <td>Thornton</td>
+                                    <td>@fat</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">3</th>
+                                    <td colspan="2">Larry the Bird</td>
+                                    <td>@twitter</td>
+                                </tr>
                             </tbody>
-                          </table>
+                        </table>
                     </div>
+                    <ul id="pagination" class="pagination justify-content-center">
+                        <li class="page-item disabled">
+                            <a class="page-link">Previous</a>
+                        </li>
+                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">Next</a>
+                        </li>
+                    </ul>
+
                 </section>
 
                 <section class="tabpanel" id="imgfilelist-panel" role="tabpanel" aria-hidden="true">
-                    <table class="table table-hover">
-                        <thead>
-                          <tr>
-                            <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">Last</th>
-                            <th scope="col">Handle</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">2</th>
-                            <td>Jacob</td>
-                            <td>Thornton</td>
-                            <td>@fat</td>
-                          </tr>
-                          <tr>
-                            <th scope="row">3</th>
-                            <td colspan="2">Larry the Bird</td>
-                            <td>@twitter</td>
-                          </tr>
-                        </tbody>
-                      </table>
+
                 </section>
 
             </div>
         </div>
 
     </div>
+
+    <footer>
+        <a class="nav-brand" width="260px">
+            <img src="../test/3.jpg" style="margin-left: 20px;" width="260px">
+        </a>
+        <a class="nav-link">
+            <div class="nav-item index-topNav-item" id="navLogin">关于我们</div>
+        </a>
+        <a class="nav-link">
+            <div class="nav-item index-topNav-item" id="navLogin">联系我们</div>
+        </a>
+        <a class="nav-link index-topNav-link">
+            <div class="nav-item index-topNav-item" id="navLogin">帮助</div>
+        </a>
+    </footer>
 
     <script type="text/javascript" src="./lib/echarts/echarts.min.js"></script>
     <script type="module" src="./widgets/calendar/index.js"></script>

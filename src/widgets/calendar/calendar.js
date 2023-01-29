@@ -35,7 +35,10 @@ export function initCalendar(padom, year) {
           type: 'piecewise',
           orient: 'horizontal',
           left: 'center',
-          bottom: 50
+          bottom: 50,
+    //       inRange:{
+    //         // color: ['#FFFFF2','#0A84FF']
+    // }
         },
         calendar: {
           top: 90,

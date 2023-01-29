@@ -1,6 +1,6 @@
 
 #output-container {
-    height: 1000px;
+    height: 100%;
 }
 
 .year-view {
@@ -43,11 +43,13 @@
     width: 100%;
     padding-bottom: 20px;
     padding-top: 20px;
+    flex-direction: column-reverse;
 }
 
 
-#speoview {
+/* #speoview {
     width: 1000px;
     height: 300px;
-}
+} */
+
 

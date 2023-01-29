@@ -5,13 +5,17 @@ html {
 
 
 body {
+    width: 100%;
     background-color: #333333;
     font-size: 15px;
+    position: relative;
     margin: 0;
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
     text-align: left;
+    min-height: 100vh; /* 最小高度 100% 视窗高度 */
+    padding-bottom: 30px;
 }
 
 div {
@@ -44,4 +48,16 @@ button[role="tab"] {
 button[aria-selected="true"] {
     color: #0085F2;
     border-bottom-color: #0085F2;
+}
+
+footer{
+    position: absolute; /* 放到页面最底部 */
+    bottom: 0;
+    left: 0;
+    height: 80px;
+    width: 100%;
+    background: rgb(10, 5, 48);
+    display: flex;
+    justify-items: center;
+    align-items: center;
 }
