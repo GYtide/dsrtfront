@@ -1,6 +1,7 @@
-import { getCalendarData ,getSpeoverData ,getProjectData} from '../../util/request.js'
+import { getCalendarData ,getSpeoverData ,getProjectData ,getSpeFileList} from '../../util/request.js'
 import { respeoverview} from '../calendar/speovew.js'
 import {re1Dview} from '../calendar/oneproject.js'
+import {refreshSpeFileList} from '../calendar/spefilelist.js'
 
 export function initCalendar(padom, year) {
   // padom.textContent =''
@@ -92,6 +93,11 @@ export function initCalendar(padom, year) {
             re1Dview(oneprodom, timearray,dataarray)
             overviewdom.appendChild(oneprodom)
           });
+
+        let speflResponse =getSpeFileList(serdate[0])
+        speflResponse.then( res => {
+          refreshSpeFileList(res)
+        })
         window.addEventListener('resize', calendarCharts.resize);
       }
       )

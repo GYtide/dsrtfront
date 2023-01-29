@@ -37,6 +37,16 @@ export const APP_URL = {
             time : `/data/${date}/1D/1Dtime.bin`,
             data : `/data/${date}/1D/1Dproject.bin`
         }
+    },
+
+    /**
+     * 
+     *  @param {*} date 年月日数组,测试时简单用年代替
+     * @returns Object 一维投影的时间、数据 api
+     */
+
+    SpeFileList : (date) => {
+            return  `/data/${date}/spelist/filelist.json`
     }
 }
 

@@ -51,10 +51,10 @@
                         预览数据
                     </button>
                     <button role="tab" aria-selected="false" aria-selected="false" aria-controls="spefilelist-panel">
-                        成像数据
+                        频谱数据
                     </button>
                     <button role="tab" aria-selected="false" aria-selected="false" aria-controls="imgfilelist-panel">
-                        频谱数据
+                        成像数据
                     </button>
                 </div>
                 <div class="year-view">
@@ -65,53 +65,19 @@
                     <div id="overview-container">
                     </div>
                 </section>
-                <section class="tabpanel" id="spefilelist-panel" role="tabpanel" aria-hidden="true">
-                    <div class="table-container">
-                        <table class="table table-hover table-striped">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">First</th>
-                                    <th scope="col">Last</th>
-                                    <th scope="col">Handle</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>Mark</td>
-                                    <td>Otto</td>
-                                    <td>@mdo</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">2</th>
-                                    <td>Jacob</td>
-                                    <td>Thornton</td>
-                                    <td>@fat</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">3</th>
-                                    <td colspan="2">Larry the Bird</td>
-                                    <td>@twitter</td>
-                                </tr>
-                            </tbody>
+                <section class="tabpanel hidden " id="spefilelist-panel" role="tabpanel" aria-hidden="true">
+                    <div class="table-container " >
+                        <table id = "spelist" data-bs-spy="scroll" class="table table-hover table-striped ">
+
+                          
                         </table>
                     </div>
                     <ul id="pagination" class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link">Previous</a>
-                        </li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Next</a>
-                        </li>
                     </ul>
 
                 </section>
 
-                <section class="tabpanel" id="imgfilelist-panel" role="tabpanel" aria-hidden="true">
+                <section class="tabpanel hidden" id="imgfilelist-panel" role="tabpanel" aria-hidden="true">
 
                 </section>
 

@@ -10,7 +10,6 @@ export async function getyearlist() {
 
 
 export async function getCalendarData(year) {
-  console.log()
     var response = await fetch(APP_URL.calendardata(year))
     return response.json()
 }
@@ -87,4 +86,10 @@ export async function getProjectData(date) {
       }
     )
   return resp
+}
+
+
+export async function getSpeFileList(date) {
+  var response = await fetch(APP_URL.SpeFileList(date))
+  return response.json()
 }

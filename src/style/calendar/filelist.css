@@ -1,11 +1,13 @@
 .tabpanel {
     width: 84%;
-    height: 200%;
+    height: 1200px;
 }
 
 .table-container {
     width: 100%;
-    height: 1000px;
+    height: 1100px;
+    overflow: auto;
+    margin-bottom: 10px;
 }
 
 /* #pagination {
