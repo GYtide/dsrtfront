@@ -20,7 +20,7 @@
 
 #container {
     border-radius: 7px;
-    width: 100%;
+    width: 80%;
     height: 300px;
     border: 1px solid #d0d7d1;
     text-align: center;
@@ -31,4 +31,9 @@
 
 .container {
     width: 90%;
+}
+
+.calendar-container{
+    display: flex;
+    height: 300px;
 }

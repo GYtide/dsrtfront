@@ -67,7 +67,7 @@ export function initCalendar(padom, year) {
         overviewdom.textContent = ''
         // 加载当天的频谱数据预览图
         var speovdom = document.createElement('div')
-        speovdom.style = "width: 1180px; height: 400px; margin-bottom: 40px;"
+        speovdom.style = "width: 690px; height: 400px; margin-bottom: 40px;"
         let serdate = params.data[0].split('-')
         let speOvewResponse = getSpeoverData(serdate[0]).then(value => {
           return value
@@ -82,7 +82,7 @@ export function initCalendar(padom, year) {
           });
 
         var oneprodom = document.createElement('div')
-        oneprodom.style = "width: 1180px; height: 400px; margin-bottom: 40px;"
+        oneprodom.style = "width: 690px; height: 400px; margin-bottom: 40px;"
         let oneProjResponse = getProjectData(serdate[0]).then(value => {
           return value
         })
