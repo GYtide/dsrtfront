@@ -9,8 +9,8 @@
 </head>
 <style>
     .layout {
-        height: 100vh;
-        width: 100vw;
+        height: 800px;
+        width: 1000px;
         display: flex;
         flex-direction: column;
         /* 多行式拖动，若为row则为多列拖动，可通过组件props控制 */
@@ -42,10 +42,10 @@
     }
 
     /* 更改原生可拖动区域范围 */
-    .row-resize-bar::-webkit-scrollbar {
-        height: 10px;
+    /* .row-resize-bar::-webkit-scrollbar {
+        height: 100px;
         width: inherit;
-    }
+    } */
 
     .row-content-bar {
         height: calc(100% - 10px);
