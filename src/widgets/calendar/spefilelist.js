@@ -44,7 +44,7 @@ export function refreshSpeFileList(data) {
 
         let tr = document.createElement('tr')
         let th = document.createElement('th')
-        th.innerHTML = i
+        th.innerHTML = i+1
 
         tr.appendChild(th)
         // 遍历对象
@@ -76,7 +76,7 @@ export function refreshSpeFileList(data) {
         // <li class="page-item"><a class="page-link" href="#">3</a></li>
         let li = document.createElement('li')
         li.setAttribute("class","page-item")
-        li.innerHTML = `<a class="page-link" href="#list-item-${i+1}">${i*100+1}-${i*100+100}</a>`
+        li.innerHTML = `<a class="page-link" href="#list-item-${i}">${i*100+1}-${i*100+100}</a>`
         pagination.appendChild(li)
     }
 
