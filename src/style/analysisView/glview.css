@@ -1,0 +1,17 @@
+.lm_item {
+    float: left;
+}
+
+.lm_splitter.lm_horizontal {
+    float: left;
+    height: calc(100% - 10px);
+    top: 5px;
+}
+
+.lm_splitter {
+    background: #d8e1e8;
+    opacity: .001;
+    transition: opacity .2s ease;
+  }
+
+/* .lm_column {} */
