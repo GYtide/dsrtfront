@@ -11,7 +11,7 @@
     flex-direction: column;
     flex-basis: 0px;
     flex-grow: 1;
-    
+
 }
 
 .lm_splitter_vertical {
@@ -24,37 +24,77 @@
 }
 
 .lm_header {
-    height: 20px;
-    width: 100%;
+    flex-basis: 20px;
+    /* border: 1px solid #bfccd6; */
+    /* border-radius: 0 4px 4px 4px; */
+    /* padding-bottom: 5px; */
+    box-sizing: initial !important;
+    padding-top: 1px;
 }
 
 .lm_body {
-    width: 100%;
-    height: calc(100% - 20px);
+    flex-basis: 0px;
+    flex-grow: 1;
+    border: 1px solid #bfccd6;
+    border-radius: 0 4px 4px 4px;
+
 }
 
+.lmtabs {
+    position: absolute;
+    padding: 0;
+}
+
+.lm_tab {
+    border: 1px solid #bfccd6;
+    background: #f5f8fa;
+    color: #106ba3;
+    border-radius:  4px 4px 0 0;
+    display: inline-block;
+    left: -2px;
+    height: 21px;
+    padding-top: 1px;
+    padding-bottom: 5px;
+    border-bottom: none;
+}
+
+.tab_title {
+    /* padding-top: 1px; */
+    margin: 0 10px;
+    /* padding-bottom: 5px; */
+}
 
 #file_container {
     flex-basis: 0px;
     flex-grow: 3;
+    display: flex;
+    flex-direction: column;
 }
 
 #histogram-container {
     flex-basis: 0px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #x-profile-container {
     flex-basis: 0px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #y-profile-container {
     flex-basis: 0px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 #info-container {
     flex-basis: 0px;
     flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
