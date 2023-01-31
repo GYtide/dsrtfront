@@ -1,17 +1,21 @@
 .App {
-    height: 100%;
-    width: 100%;
+    height: 99%;
+    width: 99%;
     position: absolute;
     top: 0;
     left: 0;
     z-index: -100;
     user-select: none;
+    display: flex;
+    flex-direction: column;
+    margin: 10px 10px 10px 10px;
 }
 
 .root-menu {
     text-align: left;
     display: flex;
     align-items: center;
+    width: 100%;
 }
 
 .menu-item {
@@ -20,12 +24,11 @@
 }
 
 .gl-container-app {
-    position: absolute;
-    top: 48px;
-    bottom: 5px;
-    left: 5px;
-    right: 5px;
+    position: relative;
     z-index: -100;
     width: 100%; 
     height: 100%;
+    display: flex;
+    flex-direction: row;
 }
+
