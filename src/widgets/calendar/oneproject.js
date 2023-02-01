@@ -50,7 +50,7 @@ export function re1Dview(padom, timearray,dataarray) {
             },
         },
         grid: {
-            bottom: 90
+            bottom: 150
         },
         dataZoom: [
             {
@@ -61,7 +61,8 @@ export function re1Dview(padom, timearray,dataarray) {
                 showDataShadow: false,
                 handleIcon:
                     'path://M10.7,11.9v-1.3H9.3v1.3c-4.9,0.3-8.8,4.4-8.8,9.4c0,5,3.9,9.1,8.8,9.4v1.3h1.3v-1.3c4.9-0.3,8.8-4.4,8.8-9.4C19.5,16.3,15.6,12.2,10.7,11.9z M13.3,24.4H6.7V23h6.6V24.4z M13.3,19.6H6.7v-1.4h6.6V19.6z',
-                handleSize: '80%'
+                handleSize: '80%',
+                bottom: 80
             },
             {
                 type: 'inside',
@@ -99,6 +100,7 @@ export function re1Dview(padom, timearray,dataarray) {
             max: Math.max(...dataarray),
             calculable: true,
             realtime: false,
+            itemHeight: 300,
             inRange: {
                 color: [
                     // '#313695',
@@ -113,7 +115,9 @@ export function re1Dview(padom, timearray,dataarray) {
                     '#d73027',
                     '#a50026'
                 ]
-            }
+            },
+            left: 'center',
+            orient: 'horizontal'
         },
         series: [
             {
@@ -129,7 +133,7 @@ export function re1Dview(padom, timearray,dataarray) {
                     color: upColor,
                     color0: downColor,
                 },
-                progressive: 1000,
+                progressive: 3000,
                 animation: false
             }
         ]

@@ -1,7 +1,8 @@
 /* block styling */
 
 .navbar {
-    background-color: #003366;
+    /* background-color: #003366; */
+    background-color: #30404D;
     position: relative;
     display: flex;
     align-items: center;
