@@ -12,7 +12,7 @@
   <div id="container" style="height: 100%"></div>
 
 
-  <script type="text/javascript" src="../src/lib/echarts/echarts.min.js"></script>
+  <script type="text/javascript" src="../../src/lib/echarts/echarts.min.js"></script>
   <!-- Uncomment this line if you want to dataTool extension
   <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
   -->
@@ -54,7 +54,8 @@
         toolbox: {
           feature: {
             dataZoom: {
-              yAxisIndex: false
+              yAxisIndex: false,
+              // startValue: 
             },
             saveAsImage: {
               pixelRatio: 2
@@ -160,13 +161,13 @@
 
     async function getData() {
       let resp = await Promise.all([
-        fetch('../data/mmintime.bin', {
+        fetch('/data/2020/speov/mmintime.bin', {
           method: 'get',
           responseType: 'arraybuffer'
-        }), fetch('../data/mminfrequency.bin', {
+        }), fetch('/data/2020/speov/mminfrequency.bin', {
           method: 'get',
           responseType: 'arraybuffer'
-        }), fetch('../data/mmindata.bin', {
+        }), fetch('/data/2020/speov/mmindata.bin', {
           method: 'get',
           responseType: 'arraybuffer'
         })]).then(
