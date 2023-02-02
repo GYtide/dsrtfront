@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div style="height: 900px; width: 100%;" id="heatmap"></div>
+    <script src="./heatmap.min.js"></script>
+    <script>
+
+        Promise.all([fetch('/data/2020/1D/1Dproject.bin', {
+            method: 'get',
+            responseType: 'arraybuffer'
+        }), fetch('/data/2020/1D/1Dtime.bin', {
+            method: 'get',
+            responseType: 'arraybuffer'
+        })]).then(
+            res => {
+                return { data: res[0].arrayBuffer(), time: res[1].arrayBuffer() }
+            }
+        ).then(
+            async res => {
+                let dataarray = await res.data.then(value => {
+                    return value
+                })
+                let timearray = await res.time.then(value => {
+                    return value
+                })
+
+                dataarray = new Float32Array(dataarray)
+
+                timearray = new Uint32Array(timearray)
+
+                return { time: timearray, data: dataarray }
+            }
+        ).then(
+            oneProjResponse => {
+                // console.log(oneProjResponse)
+                let x = oneProjResponse.time
+                let z = oneProjResponse.data
+
+                let width = x.length
+                let height = z.length / width
+
+                let dobj = []
+
+                for (let i = 0; i < height; ++i) {
+                    for (let j = 0; j < width; ++j) {
+                        var point = {
+                            x: j,
+                            y: i,
+                            value: z[i * height + j]
+                        };
+                        dobj.push(point)
+                    }
+                }
+                var heatmapInstance = h337.create({
+                    container: document.querySelector('#heatmap'),
+                });
+                //构建一些随机数据点,网页切图价格这里替换成你的业务数据
+                console.log(dobj)
+                var points = [];
+                var max = Math.max(...z);
+                var data = {
+                    max: max,
+                    data: dobj
+                };
+                //因为data是一组数据,web切图报价所以直接setData
+                heatmapInstance.setData(data); //数据绑定还可以使用
+
+            }
+        )
+    </script>
+</body>
+
+</html>

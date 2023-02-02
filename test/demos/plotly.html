@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+
+<body>
+    <div id='myDiv' style="height: 1000px;"><!-- Plotly chart will be drawn inside this DIV --></div>
+    <script src="./plotly-2.18.0.min.js">
+    </script>
+    <script>
+
+        Promise.all([fetch('/data/2020/1D/1Dproject.bin', {
+            method: 'get',
+            responseType: 'arraybuffer'
+        }), fetch('/data/2020/1D/1Dtime.bin', {
+            method: 'get',
+            responseType: 'arraybuffer'
+        })]).then(
+            res => {
+                return { data: res[0].arrayBuffer(), time: res[1].arrayBuffer() }
+            }
+        ).then(
+            async res => {
+                let dataarray = await res.data.then(value => {
+                    return value
+                })
+                let timearray = await res.time.then(value => {
+                    return value
+                })
+
+                dataarray = new Float32Array(dataarray)
+
+                timearray = new Uint32Array(timearray)
+
+                return { time: timearray, data: dataarray }
+            }
+        ).then(
+            oneProjResponse => {
+                // console.log(oneProjResponse)
+                let x = oneProjResponse.time
+                let z = oneProjResponse.data
+
+                let width = x.length
+                let height = z.length / width
+
+                let dobj = []
+
+                for(let i = 0 ; i < width ; ++i){
+                    let ver = []
+                    for(let j = 0; j < height ; ++j){
+                        ver.push(z[i*width+j])
+                    }
+                    dobj.push(ver)
+                }
+                console.log(dobj)
+                var data = [{
+                    z: dobj,
+                    colorscale: 'YlOrRd',
+                    type: 'heatmap'
+                }
+
+                ];
+
+                var layout = { title: 'Portland' };
+
+                Plotly.newPlot('myDiv', data, layout);
+
+            }
+        )
+
+
+    </script>
+</body>
+
+</html>
