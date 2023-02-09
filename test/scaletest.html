@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    /* #cvs {
+        width: 225px;
+        height: 225px;
+    } */
+</style>
+
+
+<body>
+    <canvas id="cvs" width="100" height="100">
+        <p>canvas unsupported</p>
+    </canvas>
+
+    <script>
+        var canvas = document.getElementById('cvs');
+        // Get the 2D rendering context
+        var ctx = canvas.getContext("2d");
+
+        // Set the canvas size
+        canvas.width = 800;
+        canvas.height = 600;
+        
+        // Draw the X-axis
+        ctx.moveTo(0, canvas.height / 2);
+        ctx.lineTo(canvas.width, canvas.height / 2);
+
+        // Draw the Y-axis
+        ctx.moveTo(canvas.width / 2, 0);
+        ctx.lineTo(canvas.width / 2, canvas.height);
+
+        // Add labels to the axes
+        ctx.fillText("X", canvas.width - 20, canvas.height / 2 + 20);
+        ctx.fillText("Y", canvas.width / 2 - 20, 20);
+    </script>
+</body>
+
+</html>

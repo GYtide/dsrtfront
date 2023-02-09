@@ -8,7 +8,8 @@
     user-select: none;
     display: flex;
     flex-direction: column;
-    margin: 10px 10px 10px 10px;
+    /* margin: 10px 10px 10px 10px; */
+    margin-left:10px ; 
 }
 
 .root-menu {

@@ -95,15 +95,13 @@
             // }
             const stage = new Konva.Stage({
                 container: 'image-panel',
-                width: 1600,
+                width: 1650,
                 height: 900
             });
 
             // 2 create layer
             const layer = new Konva.Layer();
             stage.add(layer);
-
-
 
 
             Promise.all([fetch('/data/2020/speov/mmindata.bin', {
