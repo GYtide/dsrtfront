@@ -44,55 +44,7 @@
         <script src="../lib/echarts/echarts.min.js"></script>
         <script>
             /**  colorMaps copy from dpusersrc_4.1/dpusersrc/QFitsView/lut.cpp */
-            // void init_colormaps(void) {
-            //  type_singlecolormap map;
 
-            //     for (int value = 0; value < 256; value++) {
-            //         map.red[value] = value;
-            //         map.green[value] = value;
-            //         map.blue[value] = value;
-            //     }
-            //     mapcolors["gray"] = map;
-
-            //     for (int value = 0; value < 256; value++) {
-            //         if (value < 128) {
-            //             map.red[value] = value;
-            //             map.green[value] = 0;
-            //             map.blue[value] = 0;
-            //         } else if (value < 192) {
-            //             map.red[value] = value;
-            //             map.green[value] = (value - 128) * 2;
-            //             map.blue[value] = 0;
-            //         } else {
-            //             map.red[value] = value;
-            //             map.green[value] = (value - 128) * 2;
-            //             map.blue[value] = (value - 192) * 3;
-            //         }
-            //     }
-            //     mapcolors["bb"] = map;
-
-            //     for (int value = 0; value < 256; value++) {
-            //         map.red[value] = value;
-            //         map.green[value] = 0;
-            //         map.blue[value] = 0;
-            //     }
-            //     mapcolors["red"] = map;
-
-            //     for (int value = 0; value < 256; value++) {
-            //         map.red[value] = 0;
-            //         map.green[value] = value;
-            //         map.blue[value] = 0;
-            //     }
-            //     mapcolors["green"] = map;
-
-            //     for (int value = 0; value < 256; value++) {
-            //         map.red[value] = 0;
-            //         map.green[value] = 0;
-            //         map.blue[value] = value;
-            //     }
-            //     mapcolors["blue"] = map;
-
-            // }
             const stage = new Konva.Stage({
                 container: 'image-panel',
                 width: 1650,
@@ -103,82 +55,57 @@
             const layer = new Konva.Layer();
             stage.add(layer);
 
-
-            Promise.all([fetch('/data/2020/speov/mmindata.bin', {
-                method: 'get',
-                responseType: 'arraybuffer'
-            }), fetch('/data/2020/speov/mmintime.bin', {
-                method: 'get',
-                responseType: 'arraybuffer'
-            })]).then(
-                res => {
-                    return { data: res[0].arrayBuffer(), time: res[1].arrayBuffer() }
-                }
-            ).then(
-                async res => {
-                    let dataarray = await res.data.then(value => {
-                        return value
-                    })
-                    let timearray = await res.time.then(value => {
-                        return value
-                    })
-
-                    dataarray = new Uint8Array(dataarray)
-
-                    timearray = new Float32Array(timearray)
-
-                    return { time: timearray, data: dataarray }
-                }
-            ).then(
+            Promise.all([
+                fetch('/data/2020/speov/mmindata.bin', { method: 'get', responseType: 'arraybuffer' }),
+                fetch('/data/2020/speov/mmintime.bin', { method: 'get', responseType: 'arraybuffer' })
+            ]).then(([data, time]) => {
+                return { data: data.arrayBuffer(), time: time.arrayBuffer() };
+            }).then(res => {
+                return Promise.all([
+                    res.data.then(value => new Uint8Array(value)),
+                    res.time.then(value => new Float32Array(value))
+                ]);
+            }).then(([data, time]) => {
+                return { time, data };
+            }).then(
                 oneProjResponse => {
-                    // console.log(oneProjResponse)
-                    let time = oneProjResponse.time
-                    let data = oneProjResponse.data
-                    let width = time.length
-                    let height = data.length / width
-                    var canvas = document.createElement('canvas');
-                    canvas.width = width
-                    canvas.height = height
-                    var ctx = canvas.getContext('2d');
+                    let time = oneProjResponse.time;
+                    let data = oneProjResponse.data;
+                    let width = time.length;
+                    let height = data.length / width;
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
 
+                    const imageData = ctx.createImageData(width, height);
+                    const pixelData = imageData.data;
 
-                    let catx = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height)
-                    let imdata = catx.data
-
-                    let newdata = data
-                    console.log(newdata)
-
-                    for (let j = 0; j < height; ++j) {
-                        for (let i = 0; i < width; ++i) {
-                            let value = newdata[(j * width + i)]
-
+                    for (let j = 0; j < height; j++) {
+                        for (let i = 0; i < width; i++) {
+                            const value = data[j * width + i];
                             if (value < 128) {
-                                imdata[(j * width + i) * 4] = value;
-                                imdata[(j * width + i) * 4 + 1] = 0;
-                                imdata[(j * width + i) * 4 + 2] = 0;
-                                imdata[(j * width + i) * 4 + 3] = 255
+                                pixelData[(j * width + i) * 4] = value;
+                                pixelData[(j * width + i) * 4 + 1] = 0;
+                                pixelData[(j * width + i) * 4 + 2] = 0;
+                                pixelData[(j * width + i) * 4 + 3] = 255;
                             } else if (value < 192) {
-                                imdata[(j * width + i) * 4] = value;
-                                imdata[(j * width + i) * 4 + 1] = (value - 128) * 2;
-                                imdata[(j * width + i) * 4 + 2] = 0;
-                                imdata[(j * width + i) * 4 + 3] = 255
+                                pixelData[(j * width + i) * 4] = value;
+                                pixelData[(j * width + i) * 4 + 1] = (value - 128) * 2;
+                                pixelData[(j * width + i) * 4 + 2] = 0;
+                                pixelData[(j * width + i) * 4 + 3] = 255;
                             } else {
-                                imdata[(j * width + i) * 4] = value;
-                                imdata[(j * width + i) * 4 + 1] = (value - 128) * 2;
-                                imdata[(j * width + i) * 4 + 2] = (value - 192) * 3;
-                                imdata[(j * width + i) * 4 + 3] = 255
+                                pixelData[(j * width + i) * 4] = value;
+                                pixelData[(j * width + i) * 4 + 1] = (value - 128) * 2;
+                                pixelData[(j * width + i) * 4 + 2] = (value - 192) * 3;
+                                pixelData[(j * width + i) * 4 + 3] = 255;
                             }
-                            // imdata[(j * width + i) * 4] = newdata[(j * width + i)]
-                            // imdata[(j * width + i) * 4 + 1] = newdata[(j * width + i)]
-                            // imdata[(j * width + i) * 4 + 2] = newdata[(j * width + i)]
-                            // imdata[(j * width + i) * 4 + 3] = 255
                         }
-                        
-                        ctx.putImageData(catx, 0, 0)
-                        
                     }
 
-                    var Img = new Konva.Image({
+                    ctx.putImageData(imageData, 0, 0);
+
+                    const konvaImg = new Konva.Image({
                         name: 'image',
                         image: canvas,
                         x: stage.width() / 2 - width / 2,
@@ -186,34 +113,24 @@
                         width: width * 2,
                         height: height * 5,
                         draggable: true,
-                        stroke: (223, 222, 222),
+                        stroke: 'rgb(223, 222, 222)',
                         strokeWidth: 0,
                         dash: [10, 10],
                     });
 
-                    Img.on('mousedown', function (e) {
-                        // console.log(e.target.getRelativePointerPosition())
-                        x = e.target.getRelativePointerPosition().x
-                        y = e.target.getRelativePointerPosition().y
-                        
-                        // x = Math.floor(x)
-                        // y = Math.floor(y)
-                        
-                        x = Math.floor(x/2)
-                        y = Math.floor(y/5)
-                        console.log(x,y)
+                    konvaImg.on('mousedown', (e) => {
+                        const x = Math.floor(e.target.getRelativePointerPosition().x / 2);
+                        const y = Math.floor(e.target.getRelativePointerPosition().y / 5);
+                        console.log(data[y * width + x]);
+                    });
 
-                        console.log(newdata[y*width+x])
-                    })
-
-                    layer.add(Img);
-
+                    layer.add(konvaImg);
                     layer.draw();
 
                 }
-            )
-
-
+            ).catch(error => {
+                console.error('An error occurred:', error);
+            });
 
         </script>
 </body>
