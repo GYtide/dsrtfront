@@ -35,6 +35,10 @@
                             <div id="image-panel">
 
                             </div>
+                            <div id="colorbar-stage">
+
+                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -47,9 +51,10 @@
 
             const stage = new Konva.Stage({
                 container: 'image-panel',
-                width: 1650,
-                height: 900
+                width: document.getElementById('image-panel').clientWidth,
+                height: document.getElementById('image-panel').clientHeight
             });
+            console.log(stage.width)
 
             // 2 create layer
             const layer = new Konva.Layer();
@@ -57,20 +62,23 @@
 
             Promise.all([
                 fetch('/data/2020/speov/mmindata.bin', { method: 'get', responseType: 'arraybuffer' }),
-                fetch('/data/2020/speov/mmintime.bin', { method: 'get', responseType: 'arraybuffer' })
-            ]).then(([data, time]) => {
-                return { data: data.arrayBuffer(), time: time.arrayBuffer() };
+                fetch('/data/2020/speov/mmintime.bin', { method: 'get', responseType: 'arraybuffer' }),
+                fetch('/data/2020/speov/mminfrequency.bin', { method: 'get', responseType: 'arraybuffer' })
+            ]).then(([data, time, frequency]) => {
+                return { data: data.arrayBuffer(), time: time.arrayBuffer(), frequency: frequency.arrayBuffer() };
             }).then(res => {
                 return Promise.all([
                     res.data.then(value => new Uint8Array(value)),
-                    res.time.then(value => new Float32Array(value))
+                    res.time.then(value => new Float32Array(value)),
+                    res.frequency.then(value => new Float32Array(value))
                 ]);
-            }).then(([data, time]) => {
-                return { time, data };
+            }).then(([data, time, frequency]) => {
+                return { time, data, frequency };
             }).then(
                 oneProjResponse => {
                     let time = oneProjResponse.time;
                     let data = oneProjResponse.data;
+                    let frequency = oneProjResponse.frequency;
                     let width = time.length;
                     let height = data.length / width;
                     const canvas = document.createElement('canvas');
@@ -108,11 +116,11 @@
                     const konvaImg = new Konva.Image({
                         name: 'image',
                         image: canvas,
-                        x: stage.width() / 2 - width / 2,
-                        y: stage.height() / 2 - height / 2,
-                        width: width * 2,
-                        height: height * 5,
-                        draggable: true,
+                        x: 0,
+                        y: 0,
+                        width: stage.width(),
+                        height: stage.height(),
+                        // draggable: true,
                         stroke: 'rgb(223, 222, 222)',
                         strokeWidth: 0,
                         dash: [10, 10],
