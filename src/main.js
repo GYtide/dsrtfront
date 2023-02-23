@@ -40,8 +40,8 @@ searchBtn.addEventListener('click', async function () {
         image: canvas,
         x: stage.width() / 2 - width / 2,
         y: stage.height() / 2 - height / 2,
-        width: width/3,
-        height: height*3,
+        width: width / 3,
+        height: height * 3,
         draggable: true,
         dash: [10, 10],
     });
@@ -69,15 +69,15 @@ function normalization(imdata) {
 
     let range = max - min
 
-    for(let i = 0 ; i < imdata.length; i+=4) {
-        
-        let nd = 255 *  imdata[i]/range
+    for (let i = 0; i < imdata.length; i += 4) {
 
-        imdata[i] =  nd * 0.7
+        let nd = 255 * imdata[i] / range
+
+        imdata[i] = nd * 0.7
         imdata[i + 1] = nd * 0.2
         imdata[i + 2] = nd * 0.1
     }
-    
+
 
 }
 

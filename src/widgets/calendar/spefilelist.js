@@ -11,16 +11,6 @@ export function refreshSpeFileList(data) {
 
     let rowlength = rows.length
 
-    //    创建表头
-    //      <thead>
-    //         <tr>
-    //             <th scope="col">#</th>
-    //             <th scope="col">First</th>
-    //             <th scope="col">Last</th>
-    //             <th scope="col">Handle</th>
-    //         </tr>
-    //      </thead>
-
     let thead = document.createElement('thead')
 
     thead.innerHTML = 
@@ -30,8 +20,8 @@ export function refreshSpeFileList(data) {
                 <th scope="col">filepath</th>
                 <th scope="col">observedatetime</th>
                 <th scope="col">uploaddatetime</th>
-                <th scope="col">flags</th>
                 <th scope="col">filesize</th>
+                <th scope="col"></th>
              </tr>`
 
     listdom.appendChild(thead)
@@ -53,6 +43,15 @@ export function refreshSpeFileList(data) {
             td.innerHTML = rows[i][key]
             tr.appendChild(td)
         }
+        let td = document.createElement('td')//文件查看按钮
+        let btn = document.createElement('a')
+        btn.setAttribute('class','btn btn-link')
+        btn.innerHTML = '查看文件'
+        btn.setAttribute('href','/src/view/analysisView.html')//跳转页面
+        btn.setAttribute('target','_blenk')
+        td.appendChild(btn)
+        tr.appendChild(td)
+
 
         tbody.appendChild(tr)
 

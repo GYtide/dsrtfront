@@ -1,13 +1,19 @@
 #image-panel {
-    width: 95%;
-    height: 95%;
-}
-
-#colorbar-stage {
-    /* width: ; */
+    width: 100%;
+    height: 100%;
 }
 
 #overlay-canvas {
+    width: 100%;
+    height: 100%;
+}
+
+#xcoordinate {
+    width: 100%;
+    height: 100%;
+}
+
+#ycoordinate {
     width: 100%;
     height: 100%;
 }

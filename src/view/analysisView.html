@@ -5,14 +5,14 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>ODACH_DSRT05_SRSP_L1_05M_20220212081001_V01</title>
 </head>
 <link rel="stylesheet" href="../lib/bootstrap5/css/bootstrap.min.css">
 <link rel="stylesheet" href="../style/analysisView/index.css">
 <link rel="stylesheet" href="../style/analysisView/glview.css">
 <link rel="stylesheet" href="../style/analysisView/container.css">
 
-<body class="" style="background-color: rgb(255,255,255);">
+<body class="" style="background-color: rgb(254, 254, 254);">
     <div id="root">
         <div class="App">
             <div class="root-menu">
@@ -63,7 +63,9 @@
                             </ul>
                         </div>
                         <div class="lm_body" >
+                            <div id="xcoordinate">
 
+                            </div>
                         </div>
 
                     </div>
@@ -78,7 +80,9 @@
 
                         </div>
                         <div class="lm_body" >
+                            <div id="ycoordinate">
 
+                            </div>
                         </div>
 
                     </div>
@@ -101,6 +105,11 @@
             </div>
         </div>
     </div>
+    <script src="../widgets/ImageContainer/index.js"></script>
+    <script src="../lib/echarts/echarts.min.js"></script>
+    <script>
+        initRenderImage('',128,128,'')
+    </script>
 </body>
 
 </html>
