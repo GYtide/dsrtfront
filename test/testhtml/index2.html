@@ -29,44 +29,58 @@
       var chartDom = document.getElementById('main');
       var myChart = echarts.init(chartDom);
       option = {
-        tooltip: {},
-        xAxis: {
-          type: 'category',
-          data: xData
-        },
-        yAxis: {
-          type: 'category',
-          data: yData
-        },
-        visualMap: {
-          min: Math.min(...data),
-          max: Math.max(...data),
-          calculable: true,
-          realtime: false,
-          inRange: {
-            color: [
-              'rgb(0,0,0)',
-              'rgb(230,0,0)',
-              'rgb(255,210,0)',
-              'rgb(255,255,255)'
-            ]
+        // 设置四个方向坐标轴
+        xAxis: [{
+          type: 'value',
+          min: -5,
+          max: 5,
+          interval: 1,
+          position: 'top', // 坐标轴在上方显示
+          axisLine: {
+            onZero: false // 防止在0刻度上出现两个坐标轴
+          }
+        }, {
+          type: 'value',
+          min: -5,
+          max: 5,
+          interval: 1,
+          position: 'bottom', // 坐标轴在下方显示
+          axisLine: {
+            onZero: false
+          }
+        }],
+        yAxis: [{
+          type: 'value',
+          min: -5,
+          max: 5,
+          interval: 1,
+          position: 'left', // 坐标轴在左侧显示
+          axisLine: {
+            onZero: false
+          }
+        }, {
+          type: 'value',
+          min: -5,
+          max: 5,
+          interval: 1,
+          position: 'right', // 坐标轴在右侧显示
+          axisLine: {
+            onZero: false
+          }
+        }],
+        graphic: {
+          // 在坐标系中添加一张图片
+          type: 'image',
+          left: 'center',
+          top: 'center',
+          style: {
+            image: 'https://www.example.com/image.png',
+            width: 200,
+            height: 200,
+            opacity: 0.8
           }
         },
-        series: [
-          {
-            name: 'Gaussian',
-            type: 'heatmap',
-            data: valueData,
-            emphasis: {
-              itemStyle: {
-                borderColor: '#333',
-                borderWidth: 1
-              }
-            },
-            progressive: 1000,
-            animation: false
-          }
-        ]
+        series: []
 
       }
       option && myChart.setOption(option);

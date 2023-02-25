@@ -1,0 +1,203 @@
+<!--
+	此示例下载自 https://echarts.apache.org/examples/zh/editor.html?c=line-draggable
+-->
+<!DOCTYPE html>
+<html lang="zh-CN" style="height: 100%">
+
+<head>
+  <meta charset="utf-8">
+</head>
+
+<body style="height: 100%; margin: 0">
+  <div id="container" style="height: 100%"></div>
+
+
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+  <!-- Uncomment this line if you want to dataTool extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/dataTool.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use gl extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-gl@2/dist/echarts-gl.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to echarts-stat extension
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts-stat@latest/dist/ecStat.min.js"></script>
+  -->
+  <!-- Uncomment this line if you want to use map
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/china.js"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@4.9.0/map/js/world.js"></script>
+  -->
+  <!-- Uncomment these two lines if you want to use bmap extension
+  <script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=YOUR_API_KEY"></script>
+  <script type="text/javascript" src="https://fastly.jsdelivr.net/npm/echarts@5.4.1/dist/extension/bmap.min.js"></script>
+  -->
+
+  <script type="text/javascript">
+    var dom = document.getElementById('container');
+    var myChart = echarts.init(dom, null, {
+      renderer: 'canvas',
+      useDirtyRect: false
+    });
+    var app = {};
+
+    var option;
+
+    const symbolSize = 20;
+    const data = [
+      [40, -10],
+      [-30, -5],
+      [-76.5, 20],
+      [-63.5, 40],
+      [-22.1, 50]
+    ];
+    option = {
+      title: {
+        text: 'Try Dragging these Points',
+        left: 'center'
+      },
+      tooltip: {
+        triggerOn: 'none',
+        formatter: function (params) {
+          return (
+            'X: ' +
+            params.data[0].toFixed(2) +
+            '<br>Y: ' +
+            params.data[1].toFixed(2)
+          );
+        }
+      },
+      grid: {
+        top: '8%',
+        bottom: '12%'
+      },
+      xAxis: [{
+        min: -100,
+        max: 70,
+        type: 'value',
+        position: 'top',
+        axisLine: { onZero: false }
+      }, {
+        min: -100,
+        max: 70,
+        type: 'value',
+        position: 'bottom',
+        axisLine: { onZero: false }
+      }],
+      yAxis: [{
+        min: -30,
+        max: 60,
+        type: 'value',
+        axisLine: { onZero: false }
+      },
+      {
+        min: -30,
+        max: 60,
+        type: 'value',
+        axisLine: { onZero: false }
+      }],
+      dataZoom: [
+        {
+          type: 'slider',
+          xAxisIndex: 0,
+          filterMode: 'none'
+        },
+        {
+          type: 'slider',
+          yAxisIndex: 0,
+          filterMode: 'none'
+        },
+        {
+          type: 'inside',
+          xAxisIndex: 0,
+          filterMode: 'none'
+        },
+        {
+          type: 'inside',
+          yAxisIndex: 0,
+          filterMode: 'none'
+        }
+      ],
+      series: [
+        {
+          id: 'a',
+          type: 'line',
+          smooth: true,
+          symbolSize: symbolSize,
+          data: data
+        }
+      ]
+    };
+
+    setTimeout(function () {
+      // Add shadow circles (which is not visible) to enable drag.
+      myChart.setOption({
+        graphic: data.map(function (item, dataIndex) {
+          return {
+            type: 'circle',
+            position: myChart.convertToPixel('grid', item),
+            shape: {
+              cx: 0,
+              cy: 0,
+              r: symbolSize / 2
+            },
+            invisible: true,
+            draggable: true,
+            ondrag: function (dx, dy) {
+              onPointDragging(dataIndex, [this.x, this.y]);
+            },
+            onmousemove: function () {
+              showTooltip(dataIndex);
+            },
+            onmouseout: function () {
+              hideTooltip(dataIndex);
+            },
+            z: 100
+          };
+        })
+  
+      });
+    }, 0);
+    window.addEventListener('resize', updatePosition);
+    myChart.on('dataZoom', updatePosition);
+    function updatePosition() {
+      myChart.setOption({
+        graphic: data.map(function (item, dataIndex) {
+          return {
+            position: myChart.convertToPixel('grid', item)
+          };
+        })
+      });
+    }
+    function showTooltip(dataIndex) {
+      myChart.dispatchAction({
+        type: 'showTip',
+        seriesIndex: 0,
+        dataIndex: dataIndex
+      });
+    }
+    function hideTooltip(dataIndex) {
+      myChart.dispatchAction({
+        type: 'hideTip'
+      });
+    }
+    function onPointDragging(dataIndex, pos) {
+      data[dataIndex] = myChart.convertFromPixel('grid', pos);
+      // Update data
+      myChart.setOption({
+        series: [
+          {
+            id: 'a',
+            data: data
+          }
+        ]
+      });
+    }
+
+    if (option && typeof option === 'object') {
+      myChart.setOption(option);
+    }
+
+    window.addEventListener('resize', myChart.resize);
+  </script>
+</body>
+
+</html>
