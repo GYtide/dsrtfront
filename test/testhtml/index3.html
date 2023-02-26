@@ -51,27 +51,27 @@
                 // right: '5%'
             },
             xAxis: [{
-                min: -100,
-                max: 70,
+                min: -128,
+                max: 128,
                 type: 'value',
                 position: 'top',
                 axisLine: { onZero: false }
             }, {
-                min: -100,
-                max: 70,
+                min: -128,
+                max: 128,
                 type: 'value',
                 position: 'bottom',
                 axisLine: { onZero: false }
             }],
             yAxis: [{
                 min: -30,
-                max: 60,
+                max: 128,
                 type: 'value',
                 axisLine: { onZero: false }
             },
             {
                 min: -30,
-                max: 60,
+                max: 128,
                 type: 'value',
                 axisLine: { onZero: false }
             }],
@@ -114,6 +114,7 @@
                     renderItem: function (params, api) {
                             var x = myChart.convertToPixel('grid', [-40, 40])[0];
                             var y = myChart.convertToPixel('grid', [-40, 40])[1];
+                            console.log(params.coordSys)
                             return {
                                 type: 'image',
                                 style: {
@@ -126,17 +127,6 @@
                                 },
                                 z:-1
                             };
-                        
-                        // return {
-                        //     type: 'image',
-                        //     style: {
-                        //         image: canvas,
-                        //         x: myChart.convertToPixel('grid', [-40, 40])[0],
-                        //         y: myChart.convertToPixel('grid', [-40, 40])[1],
-                        //         width: 512,
-                        //         height: 512
-                        //     }
-                        // };
                     },
                     clip: true,
                     silent: true,
